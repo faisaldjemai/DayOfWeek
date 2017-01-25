@@ -1,45 +1,83 @@
-  #include<stdio.h>
-  int main()
-  {
-  float dif,iae,ine, ing,iag,difg,E,mtt,DF,T,TH;
-    double G;
-    printf("iae=");
-  scanf("%f",&iae);
-  printf("ine=");
-  scanf("%f",&ine);
-  dif=ine-iae;
-  if(dif<125) {
-      E = (dif - 125) * 4.179 + (125 * 1.779) + 131.10;
-      printf("%f", E);
-      E = (E * 0.07) + E;
-      printf("%f", E);
-  }
-  else
-  E=(dif*1.779)+131.10;
+#include <stdio.h>
 
-  printf("iag=");
-  scanf("%f",&iag);
-  printf("ing=");
-  scanf("%f",&ing);
-  dif=ing-iag;
+int date, mois, anne, bissextile;
 
-  if(difg>1125){
-    G=(difg-1125)*0.324+(1125*0.168)+85.5;
-	printf("%f",G);
-  }
-	else
-	G=(difg*0.168)+85.5;
+int fm( int mois) {
+    int fmois;
 
-  G=(G*0.07)+G;
+     fmois = 3 + (2 - bissextile) * ((mois + 2) / (2 * mois))
+             + (5 * mois + mois / 9) / 2;
 
-  printf("entrer DF");
-  scanf("%f",&DF);
-  printf("entrer TH");
-  scanf("%f",&TH);
-  printf("entrer T");
-  scanf("%f",&T);
-  mtt=E+DF+TH+T;
-  printf("mtt=%f",mtt);
+     fmois = fmois % 7;
+    return fmois;
+}
 
-  return 0;
- }
+int jour_la_semaine(int date, int mois, int anne) {
+
+    int jourLaSemaine;
+    int AA = anne % 100;
+    int siecle = anne / 100;
+
+    printf("\nDate: %d/%d/%d \n", date, mois, anne);
+
+    jourLaSemaine = 1.25 * AA + fm( mois) + date - 2 * (siecle % 4);
+
+
+    jourLaSemaine = jourLaSemaine % 7;
+
+    switch (jourLaSemaine) {
+        case 0:
+            printf("Jour La Semaine = Samedi");
+            break;
+        case 1:
+            printf("Jour La Semaine = Dimanche");
+            break;
+        case 2:
+            printf("Jour La Semaine = Lundi");
+            break;
+        case 3:
+            printf("Jour La Semaine = Mardi");
+            break;
+        case 4:
+            printf("Jour La Semaine = Mercredi");
+            break;
+        case 5:
+            printf("Jour La Semaine = Jeudi");
+            break;
+        case 6:
+            printf("Jour La Semaine = Vendredi");
+            break;
+        default:
+            printf("Données incorrectes");
+    }
+    return 0;
+}
+
+int main() {
+
+
+    printf("\nEntrez le anne : ");
+    scanf("%d", &anne);
+
+    printf("\nEntrez le mois : ");
+    scanf("%d", &mois);
+
+    printf("\nEntrez le date : ");
+    scanf("%d", &date);
+
+    if ((anne % 100 == 0) && (anne % 400 != 0))
+        bissextile = 0;
+
+     else if (anne % 4 == 0)
+        bissextile = 1;
+        else
+        bissextile = 0;
+
+    if ((bissextile == 0)&& (mois == 02) && (date == 29))
+     printf("Données incorrectes");
+
+    else
+     jour_la_semaine(date, mois, anne) ;
+
+    return 0;
+}
